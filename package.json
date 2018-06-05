@@ -1,0 +1,16 @@
+{
+  "name": "api42",
+  "version": "1.0.0",
+  "author": "cvimard <cvimard@socialobjects.co>",
+  "scripts": {
+    "start": "babel index.js -d dist && node ./dist/index.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  }
+}
