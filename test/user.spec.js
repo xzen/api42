@@ -49,4 +49,19 @@ describe('GET /user', () => {
           done();
       });
   });
+
+  it('POST /create should create an user', (done) => {
+    const result = '{"1":{"name":"cyril","age":30,"gender":"male"},"2":{"name":"jp","age":24,"gender":"male"},"3":{"name":"guillaume","age":2,"gender":"male"},"4":{"name":"tutu","age":45,"gender":"f"}}';
+    const payload = {'name': 'tutu','age': 45,'gender': 'f'};
+
+    chai.request(app)
+      .post('/user/create')
+      .send(payload)
+      .end((err, res) => {
+          res.should.have.status(200);
+          res.text.should.be.eql(result);
+
+          done();
+      });
+  });
 });
