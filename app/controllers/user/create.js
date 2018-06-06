@@ -1,5 +1,11 @@
 // Core
 const mock = require('../../models/get-user.js');
+const validator = require('node-validator');
+
+const check = validator.isObject()
+.withRequired('name', validator.isString())
+.withOptional('age', validator.isNumber())
+.withOptional('gender', validator.isString({ regex: /^male|femal$/}));
 
 module.exports = class Create {
   constructor(app) {
@@ -12,7 +18,7 @@ module.exports = class Create {
    * Middleware
    */
   middleware () {
-    this.app.post('/user/create', (req, res) => {
+    this.app.post('/user/create', validator.express(check), (req, res) => {
       try {
         Object.assign(mock, {
           [Object.keys(mock).length + 1]: req.body
