@@ -19,5 +19,9 @@ module.exports = class Server {
     new routes.user.show(this.app);
     new routes.user.destroy(this.app);
     new routes.user.create(this.app);
+
+    this.app.listen(4000, () => {
+      console.log('server run !!!');
+    });
   }
 };

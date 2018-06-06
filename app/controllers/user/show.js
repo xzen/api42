@@ -6,10 +6,16 @@ module.exports = class Show {
   }
 
   middleware () {
+    this.app.get('/user/show/:id', (req, res) => {
+      res.status(400).json(req.params);
+    });
   }
 
   run () {
-    this.middleware();
-    console.log('show', this.app);
+    try {
+      this.middleware();
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
