@@ -13,14 +13,14 @@ module.exports = class Show {
    */
   middleware () {
     this.app.get('/user/show/:id', (req, res) => {
-      if (! req.params || ! req.params.id.length || ! mock[req.params.id]) {
+      if (! req.params || ! req.params.id.length) {
         res.status(404).json({
           code: 404,
           message: 'Not Found'
         });
       }
 
-      res.status(200).json(mock[req.params.id]);
+      res.status(200).json(mock[req.params.id] || {});
     });
   }
 
@@ -30,8 +30,8 @@ module.exports = class Show {
   run () {
     try {
       this.middleware();
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.error(`[ERROR] Server -> ${e}`);
     }
   }
 };
