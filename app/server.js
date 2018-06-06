@@ -10,6 +10,8 @@ const routes = require('./controllers/routes.js');
 module.exports = class Server {
   constructor () {
     this.app = express();
+
+    this.run();
   }
 
   /**
