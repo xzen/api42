@@ -23,7 +23,7 @@ module.exports = class Show {
 
         res.status(200).json(mock[req.params.id] || {});
       } catch (e) {
-        console.error(e);
+        console.error(`[ERROR] user/show/:id -> ${e}`);
         res.status(400).json({
           'code': 400,
           'message': 'Bad request'

@@ -1,6 +1,9 @@
 // Dependencie
+const bodyParser = require('body-parser');
 const compression = require('compression');
+const cors = require('cors');
 const express = require('express');
+const helmet = require('helmet');
 
 // Core
 const routes = require('./controllers/routes.js');
@@ -20,6 +23,11 @@ module.exports = class Server {
    */
   middleware () {
     this.app.use(compression());
+    this.app.use(cors());
+    this.app.use(bodyParser.urlencoded({
+      'extended': true
+    }));
+    this.app.use(bodyParser.json())
   }
 
   /**
@@ -40,10 +48,19 @@ module.exports = class Server {
   }
 
   /**
+   * Security
+   */
+  security () {
+    this.app.use(helmet());
+    this.app.disable('x-powered-by');
+  }
+
+  /**
    * Run
    */
   run () {
     try {
+      this.security();
       this.middleware();
       this.routes();
       this.app.listen(4000);
