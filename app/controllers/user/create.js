@@ -1,10 +1,15 @@
 module.exports = class Create {
-  middleware (app) {
-    console.log(app);
+  constructor(app) {
+    this.app = app;
+
+    this.run();
   }
 
-  run (app) {
-    this.middleware(app);
+  middleware () {
+  }
+
+  run () {
+    this.middleware();
     console.log('create');
   }
-}
+};

@@ -1,10 +1,16 @@
 module.exports = class Destroy {
-  middleware (app) {
-    console.log(app);
+  constructor(app) {
+    this.app = app;
+
+    this.run();
   }
 
-  run (app) {
-    this.middleware(app);
+  middleware () {
+  }
+
+  run () {
+    this.middleware();
     console.log('destroy');
   }
-}
+};
+

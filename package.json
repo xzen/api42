@@ -3,16 +3,10 @@
   "version": "1.0.0",
   "author": "cvimard <cvimard@socialobjects.co>",
   "scripts": {
-    "start": "babel index.js --out-file dist.js && node ./dist.js"
+    "start": "node index.js"
   },
   "license": "MIT",
-  "devDependencies": {
-    "babel-cli": "^6.26.0"
-  },
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "es-collections": "^0.0.2",
     "express": "^4.16.3"
   }
 }
