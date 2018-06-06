@@ -1,4 +1,5 @@
 // Dependencie
+const compression = require('compression');
 const express = require('express');
 
 // Core
@@ -12,6 +13,13 @@ module.exports = class Server {
     this.app = express();
 
     this.run();
+  }
+
+  /**
+   * Middleware
+   */
+  middleware () {
+    this.app.use(compression());
   }
 
   /**
@@ -36,10 +44,9 @@ module.exports = class Server {
    */
   run () {
     try {
+      this.middleware();
       this.routes();
-      this.app.listen(4000, () => {
-        console.log('server run !!!');
-      });
+      this.app.listen(4000);
     } catch (e) {
       console.error(`[ERROR] Server -> ${e}`);
     }
