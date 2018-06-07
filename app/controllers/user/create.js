@@ -1,17 +1,17 @@
 // Core
-const mock = require('../../models/get-user.js');
-const validator = require('node-validator');
+const mock = require('../../models/get-user.js')
+const validator = require('node-validator')
 
 const check = validator.isObject()
-.withRequired('name', validator.isString())
-.withOptional('age', validator.isNumber())
-.withOptional('gender', validator.isString({ regex: /^male|femal$/}));
+  .withRequired('name', validator.isString())
+  .withOptional('age', validator.isNumber())
+  .withOptional('gender', validator.isString({ regex: /^male|femal$/ }))
 
 module.exports = class Create {
-  constructor(app) {
-    this.app = app;
+  constructor (app) {
+    this.app = app
 
-    this.run();
+    this.run()
   }
 
   /**
@@ -22,23 +22,23 @@ module.exports = class Create {
       try {
         Object.assign(mock, {
           [Object.keys(mock).length + 1]: req.body
-        });
+        })
 
-        res.status(200).json(mock || {});
+        res.status(200).json(mock || {})
       } catch (e) {
-        console.error(`[ERROR] user/create -> ${e}`);
+        console.error(`[ERROR] user/create -> ${e}`)
         res.status(400).json({
           'code': 400,
           'message': 'Bad request'
-        });
+        })
       }
-     });
+    })
   }
 
   /**
    * Run
    */
   run () {
-    this.middleware();
+    this.middleware()
   }
-};
+}

@@ -14,4 +14,4 @@ module.exports = {
     'age': 2,
     'gender': 'male'
   }
-};
+}
