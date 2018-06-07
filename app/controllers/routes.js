@@ -1,13 +1,15 @@
-const show = require('./user/show.js');
 const create = require('./user/create.js');
-const destroy = require('./user/destroy.js');
+const show = require('./user/show.js');
 const search = require('./user/search.js');
+const update = require('./user/update.js');
+const destroy = require('./user/destroy.js');
 
 module.exports = {
   user: {
-    show,
     create,
-    destroy,
-    search
+    show,
+    search,
+    update,
+    destroy
   }
 };

@@ -34,10 +34,11 @@ module.exports = class Server {
    * Routes
    */
   routes () {
-    new routes.user.show(this.app);
-    new routes.user.destroy(this.app);
     new routes.user.create(this.app);
+    new routes.user.show(this.app);
     new routes.user.search(this.app);
+    new routes.user.update(this.app);
+    new routes.user.destroy(this.app);
 
     // If route not exist
     this.app.use((req, res) => {
