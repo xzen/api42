@@ -3,9 +3,6 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const Server = require('../app/server.js');
 
-// Data
-const userMock = require('../app/models/get-user.js');
-
 // Core
 const server = new Server();
 const app = server.app;
@@ -71,6 +68,36 @@ describe('GET /user', () => {
 
     chai.request(app)
       .post('/user/create')
+      .send(payload)
+      .end((err, res) => {
+          res.should.have.status(400);
+          res.text.should.be.eql(result);
+
+          done();
+      });
+  });
+
+  it('POST /search should search user 1 and 2', (done) => {
+    const result = '{"1":{"name":"cyril","age":30,"gender":"male"},"3":{"name":"guillaume","age":2,"gender":"male"}}';
+    const payload = {'ids': ['1', '3']};
+
+    chai.request(app)
+      .post('/user/search')
+      .send(payload)
+      .end((err, res) => {
+          res.should.have.status(200);
+          res.text.should.be.eql(result);
+
+          done();
+      });
+  });
+
+  it('POST /search should check the payload body is false', (done) => {
+    const result = '{"errors":[{"parameter":"id","value":["1","3"],"message":"Unexpected value."},{"parameter":"ids","message":"Required value."}]}';
+    const payload = {'id': ['1', '3']};
+
+    chai.request(app)
+      .post('/user/search')
       .send(payload)
       .end((err, res) => {
           res.should.have.status(400);

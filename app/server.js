@@ -37,6 +37,7 @@ module.exports = class Server {
     new routes.user.show(this.app);
     new routes.user.destroy(this.app);
     new routes.user.create(this.app);
+    new routes.user.search(this.app);
 
     // If route not exist
     this.app.use((req, res) => {
