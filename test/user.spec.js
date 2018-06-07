@@ -79,4 +79,28 @@ describe('GET /user', () => {
           done();
       });
   });
+
+  it('DELETE /destroy/:id should delete an user', (done) => {
+    const result = '{"2":{"name":"jp","age":24,"gender":"male"},"3":{"name":"guillaume","age":2,"gender":"male"},"4":{"name":"tutu","age":45,"gender":"male"}}';
+
+    chai.request(app)
+      .delete('/user/destroy/1')
+      .end((err, res) => {
+          res.should.have.status(200);
+          res.text.should.be.eql(result);
+
+          done();
+      });
+  });
+
+  it('DELETE /destroy/:id should have not id in url', (done) => {
+    chai.request(app)
+      .get('/user/destroy/')
+      .end((err, res) => {
+          res.should.have.status(404);
+          res.text.should.be.eql('{"code":404,"message":"Not Found"}');
+
+          done();
+      });
+  });
 });
