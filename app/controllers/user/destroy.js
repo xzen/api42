@@ -12,7 +12,7 @@ module.exports = class Destroy {
    * Middleware
    */
   middleware () {
-    this.app.get('/user/destroy/:id', (req, res) => {
+    this.app.delete('/user/destroy/:id', (req, res) => {
       try {
         if (! req.params || ! req.params.id.length) {
           res.status(404).json({
@@ -20,6 +20,7 @@ module.exports = class Destroy {
             message: 'Not Found'
           });
         }
+
         delete mock[req.params.id];
 
         res.status(200).json(mock || {});
