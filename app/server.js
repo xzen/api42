@@ -6,6 +6,7 @@ const express = require('express')
 const helmet = require('helmet')
 
 // Core
+const config = require('./config.js')
 const routes = require('./controllers/routes.js')
 
 /**
@@ -14,6 +15,7 @@ const routes = require('./controllers/routes.js')
 module.exports = class Server {
   constructor () {
     this.app = express()
+    this.config = config[process.argv[2]] || config['development']
 
     this.run()
   }
@@ -34,11 +36,11 @@ module.exports = class Server {
    * Routes
    */
   routes () {
-    new routes.user.Create(this.app)
-    new routes.user.Show(this.app)
-    new routes.user.Search(this.app)
-    new routes.user.Update(this.app)
-    new routes.user.Destroy(this.app)
+    new routes.user.Create(this.app, this.config)
+    new routes.user.Show(this.app, this.config)
+    new routes.user.Search(this.app, this.config)
+    new routes.user.Update(this.app, this.config)
+    new routes.user.Destroy(this.app, this.config)
 
     // If route not exist
     this.app.use((req, res) => {

@@ -1,26 +1,23 @@
 // Dependencies
 const mongoose = require('mongoose')
-const Schema = require('../../models/users.js')
+const Schema = require('../../models/user.js')
 const validator = require('node-validator')
-
-// Core
-const check = validator.isObject()
-  .withRequired('name', validator.isString())
-  .withOptional('age', validator.isNumber())
-  .withOptional('gender', validator.isString({ regex: /^male|femal$/ }))
+const check = require('./payload-validator/create.js')
 
 module.exports = class Create {
-  constructor (app) {
+  constructor (app, config) {
     this.app = app
+    this.config = config
+    this.check = check
 
     this.run()
   }
 
   /**
-   * Data base connect
+   * Get model with mongoose schema
    */
   getModel (res, payload) {
-    mongoose.connect('mongodb://localhost:27017/socialobjects')
+    mongoose.connect(this.config.mongodb)
 
     this.db = mongoose.connection
     this.db.on('error', () => {
@@ -29,15 +26,11 @@ module.exports = class Create {
         'message': 'Internal Server Error'
       })
 
-      console.error(`[ERROR] user/create getModel() -> Connetion fail`)
+      console.error(`[ERROR] user/create getModel() -> connection mongodb failed`)
     })
 
     const User = mongoose.model('User', Schema)
-    const model = new User
-
-    model.name = payload.name
-    model.age = payload.age
-    model.gender = payload.gender
+    const model = new User(payload)
 
     return model
   }
@@ -46,10 +39,8 @@ module.exports = class Create {
    * Middleware
    */
   middleware () {
-    this.app.post('/user/create', validator.express(check), (req, res) => {
+    this.app.post('/user/create', validator.express(this.check), (req, res) => {
       try {
-
-        // Save
         this.getModel(res, req.body).save((err, result) => {
           if (err) {
             res.status(500).json({
@@ -57,7 +48,6 @@ module.exports = class Create {
               'message': 'Internal Server Error'
             })
 
-            this.db.close()
             console.error(`[ERROR] user/create middleware() -> ${err}`)
           }
 
