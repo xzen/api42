@@ -25,7 +25,7 @@ Allows the creation of a single user.
 }
 ```
 
-### Response :
+#### Response :
 ```javascript
   {
     _id: Object_ID,
