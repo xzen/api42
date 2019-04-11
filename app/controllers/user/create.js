@@ -1,38 +1,16 @@
 // Dependencies
-const mongoose = require('mongoose')
 const Schema = require('../../models/user.js')
 const validator = require('node-validator')
 const check = require('./payload-validator/create.js')
 
 module.exports = class Create {
-  constructor (app, config) {
+  constructor (app, config, connect) {
     this.app = app
     this.config = config
     this.check = check
+    this.UserModel = connect.model('User', Schema)
 
     this.run()
-  }
-
-  /**
-   * Get model with mongoose schema
-   */
-  getModel (res, payload) {
-    mongoose.connect(this.config.mongodb)
-
-    this.db = mongoose.connection
-    this.db.on('error', () => {
-      res.status(500).json({
-        'code': 500,
-        'message': 'Internal Server Error'
-      })
-
-      console.error(`[ERROR] user/create getModel() -> connection mongodb failed`)
-    })
-
-    const User = mongoose.model('User', Schema)
-    const model = new User(payload)
-
-    return model
   }
 
   /**
@@ -41,18 +19,13 @@ module.exports = class Create {
   middleware () {
     this.app.post('/user/create', validator.express(this.check), (req, res) => {
       try {
-        this.getModel(res, req.body).save((err, result) => {
-          if (err) {
-            res.status(500).json({
-              'code': 500,
-              'message': 'Internal Server Error'
-            })
+        const userModel = new this.UserModel(req.body)
 
-            console.error(`[ERROR] user/create middleware() -> ${err}`)
-          }
-
-          res.status(200).json(result)
-        })
+        userModel.save().then(user => {
+            res.status(200).json(user || {})
+          }).catch(() => {
+            res.status(200).json({})
+          })
       } catch (e) {
         console.error(`[ERROR] user/create -> ${e}`)
         res.status(400).json({
