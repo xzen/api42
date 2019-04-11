@@ -20,12 +20,12 @@ Allows the creation of a single user.
 ```javascript
 {
   'name': String, // Required
-  'age': Number, // Optionnal
-  'sexe': String // Optionnal
+  'age': Number, // Optional
+  'sexe': String // Optional
 }
 ```
 
-### Response :
+#### Response :
 ```javascript
   {
     _id: Object_ID,

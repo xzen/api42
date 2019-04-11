@@ -45,7 +45,7 @@ module.exports = class Server {
 
     process.on('SIGINT', () => {
       connect.close(() => {
-        console.log('[API END PROCESS] stream mentions api dbConnect() -> close mongodb connection ')
+        console.log('[API END PROCESS] stream mentions api dbConnect() -> close mongodb connection')
         process.exit(0)
       })
     })
